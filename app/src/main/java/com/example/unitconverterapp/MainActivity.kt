@@ -8,7 +8,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material3.*
@@ -49,10 +51,11 @@ fun UnitConverterScreen() {
     var inputValue by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
 
-    // New price calculation states
     var unitPrice by remember { mutableStateOf("") }
     var givenAmount by remember { mutableStateOf("") }
     var calculatedPrice by remember { mutableStateOf("") }
+
+    val scrollState = rememberScrollState()
 
     val unitOptions = when (selectedConversionType) {
         "Temperature" -> listOf("Celsius", "Fahrenheit")
@@ -74,9 +77,9 @@ fun UnitConverterScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(gradient)
+            .verticalScroll(scrollState)
             .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -219,7 +222,7 @@ fun UnitConverterScreen() {
             Text("Price: ₹$calculatedPrice", fontSize = 18.sp, color = Color.White)
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(30.dp))
 
         Divider(color = Color.White.copy(alpha = 0.3f), thickness = 1.dp)
         Spacer(modifier = Modifier.height(10.dp))
@@ -241,6 +244,8 @@ fun UnitConverterScreen() {
                 context.startActivity(intent)
             }
         )
+
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
