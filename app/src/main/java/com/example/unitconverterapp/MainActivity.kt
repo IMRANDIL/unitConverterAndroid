@@ -54,6 +54,7 @@ fun UnitConverterScreen() {
     var unitPrice by remember { mutableStateOf("") }
     var givenAmount by remember { mutableStateOf("") }
     var calculatedPrice by remember { mutableStateOf("") }
+    val isPriceCalcEnabled = unitPrice.isNotBlank() && givenAmount.isNotBlank()
 
     val scrollState = rememberScrollState()
 
@@ -106,6 +107,10 @@ fun UnitConverterScreen() {
             fromUnit = ""
             toUnit = ""
             result = ""
+            inputValue = ""
+            unitPrice = ""
+            givenAmount = ""
+            calculatedPrice = ""
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -210,11 +215,15 @@ fun UnitConverterScreen() {
                     calculatedPrice = "Invalid input"
                 }
             },
+            enabled = isPriceCalcEnabled,
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00BFA5))
+            colors = ButtonDefaults.buttonColors(
+                containerColor = if (isPriceCalcEnabled) Color(0xFF00BFA5) else Color.Gray
+            )
         ) {
             Text("Calculate Price", color = Color.White)
         }
+
 
         Spacer(modifier = Modifier.height(12.dp))
 
