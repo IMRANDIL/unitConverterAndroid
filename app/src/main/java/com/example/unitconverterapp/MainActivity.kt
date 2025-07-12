@@ -17,6 +17,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -55,6 +56,7 @@ fun UnitConverterScreen() {
     var givenAmount by remember { mutableStateOf("") }
     var calculatedPrice by remember { mutableStateOf("") }
     val isPriceCalcEnabled = unitPrice.isNotBlank() && givenAmount.isNotBlank()
+    val focusManager = LocalFocusManager.current
 
     val scrollState = rememberScrollState()
 
@@ -142,6 +144,7 @@ fun UnitConverterScreen() {
 
         Button(
             onClick = {
+                focusManager.clearFocus()  // 👈 Hide keyboard
                 try {
                     result = convert(inputValue.toDouble(), fromUnit, toUnit, selectedConversionType)
                 } catch (e: NumberFormatException) {
@@ -206,6 +209,7 @@ fun UnitConverterScreen() {
 
         Button(
             onClick = {
+                focusManager.clearFocus()  // 👈 Hide keyboard
                 try {
                     val pricePerKg = unitPrice.toDouble()
                     val gramsOrMl = givenAmount.toDouble()
